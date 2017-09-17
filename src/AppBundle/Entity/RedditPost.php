@@ -1,0 +1,56 @@
+<?php
+
+/**
+ * Created by PhpStorm.
+ * User: root
+ * Date: 16.09.17
+ * Time: 11:20
+ */
+namespace AppBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Class RedditPost
+ * @package AppBundle\Entity
+ * @ORM\Entity
+ * @ORM\Table(name="reddit_posts")
+ */
+class RedditPost
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    protected $id;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $title;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param mixed $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+}
