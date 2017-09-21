@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class RedditPost
  * @package AppBundle\Entity
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\RedditPostRepository")
  * @ORM\Table(name="reddit_posts")
  */
 class RedditPost
@@ -28,6 +28,12 @@ class RedditPost
      * @ORM\Column(type="string")
      */
     protected $title;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\RedditAuthor", inversedBy="posts")
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
+     */
+    protected $author;
 
     /**
      * @return mixed
@@ -53,4 +59,22 @@ class RedditPost
     {
         $this->title = $title;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param mixed $author
+     */
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+    }
+
+
 }

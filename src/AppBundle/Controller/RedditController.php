@@ -14,10 +14,32 @@ class RedditController extends Controller
      */
     public function indexAction()
     {
-        $posts = $this->getDoctrine()
-            ->getRepository('AppBundle:RedditPost')
-            ->findAll();
-        dump($posts);
+//        $posts = $this->getDoctrine()
+//            ->getRepository('AppBundle:RedditPost')
+//            ->findAll();
+        $query = $this->getDoctrine()->getManager()->createQuery(
+            "SELECT p, a
+            FROM AppBundle\Entity\RedditPost p
+            JOIN p.author a
+            ORDER by a.name ASC"
+        );
+
+        //$posts = $query->setMaxResults(5)->getResult();
+
+
+        $query = $this->getDoctrine()->getRepository('AppBundle:RedditPost')
+            ->createQueryBuilder('p')
+            ->join('p.author', 'a')
+            ->addSelect('a')
+            ->where('p.id > :id')
+            ->setParameter('id', 10)
+            ->orderBy('a.name', 'DESC')
+            ->getQuery();
+
+        //$posts = $query->setFirstResult(5)->getResult();
+
+        $posts = $this->getDoctrine()->getRepository('AppBundle:RedditPost')->query(2);
+
         // replace this example code with whatever you need
         return $this->render('reddit/index.html.twig', [
             'posts' => $posts

@@ -32,6 +32,16 @@ class RedditAuthor
     protected $name;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\RedditPost", mappedBy="author")
+     */
+    protected $posts;
+
+    function __construct()
+    {
+        $this->posts = new ArrayCollection();
+    }
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -55,5 +65,30 @@ class RedditAuthor
         $this->name = $name;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getPosts()
+    {
+        return $this->posts;
+    }
 
+    /**
+     * @param mixed $posts
+     */
+    public function setPosts($posts)
+    {
+        $this->posts = $posts;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function addPost(RedditPost $post)
+    {
+        if (!$this->posts->contains($post)) {
+            $post->setAuthor($this);
+            $this->posts->add($post);
+        }
+    }
 }
