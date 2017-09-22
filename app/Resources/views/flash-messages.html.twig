@@ -1,0 +1,8 @@
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ label }} fade in">
+            <a href="#" class="close" data-dismiss="alert">&times;</a>
+            <strong>Success!</strong> {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
