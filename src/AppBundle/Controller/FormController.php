@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Product;
+use AppBundle\Form\Type\NumberFormType;
 use AppBundle\Form\Type\ProductType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Routing\Annotation\Route;
@@ -91,6 +92,34 @@ class FormController extends Controller
         }
 
         return $this->render('form/index.html.twig', [
+            'myForm' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("form/number", name="form_number")
+     * @param Request $request
+     */
+    public function numberAction(Request $request)
+    {
+        $form = $this->createForm(NumberFormType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $product = $form->getData();
+
+            $em->persist($product);
+            $em->flush();
+
+            $this->addFlash('success', 'We saved product with id: ' . $product->getId());
+        }
+
+//        return $this->render('form/number.html.twig', [
+//            'myForm' => $form->createView()
+//        ]);
+
+        return $this->render('form/default.html.twig', [
             'myForm' => $form->createView()
         ]);
     }
